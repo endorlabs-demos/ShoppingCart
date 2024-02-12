@@ -26,23 +26,17 @@ jobs:
             NAMESPACE=$(jq -r '.inputs.tenant_name' $GITHUB_EVENT_PATH)
             echo "::add-mask::$NAMESPACE" 
             echo NAMESPACE=$NAMESPACE >> $GITHUB_ENV
-
-        - name: Use Caches
-          uses: actions/cache@v4
-          with:
-            path: ~/.m2
-            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-            restore-keys: |
-              ${{ runner.os }}-maven-
         
         - name: Checkout Repository
           uses: actions/checkout@v3
           
         - name: Setup Java
-          uses: actions/setup-java@v3
+          uses: actions/setup-java@v4
           with:
             distribution: microsoft
-            java-version: "17"
+            java-version: "8"
+            cache: maven
+            cache-dependency-path: pom.xml
 
         - name: Compile Package
           run: mvn clean install
