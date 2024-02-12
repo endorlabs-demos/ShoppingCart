@@ -28,7 +28,7 @@ jobs:
             echo NAMESPACE=$NAMESPACE >> $GITHUB_ENV
 
         - name: Use Caches
-          uses: actions/cache@v1
+          uses: actions/cache@v2
           with:
             path: ~/.m2
             key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
