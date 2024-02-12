@@ -38,8 +38,12 @@ jobs:
             cache: maven
             cache-dependency-path: pom.xml
 
+        - name: Set up Maven
+          uses: stCarolas/setup-maven@v4.5
+          with:
+            maven-version: 3.9.4
         - name: Compile Package
-          run: mvn clean install
+          run: mvn -B clean package
             
         - name: Endor Labs Workflow Dispatch
           if: ${{ github.event_name == 'workflow_dispatch' }}
