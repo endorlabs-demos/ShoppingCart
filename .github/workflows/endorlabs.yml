@@ -30,21 +30,13 @@ jobs:
         - name: Checkout Repository
           uses: actions/checkout@v3
           
-        - name: Setup Java
-          uses: actions/setup-java@v4
+        - name: Setup Node
+          uses: mskelton/setup-yarn@v1
           with:
-            distribution: "temurin"
-            java-version: "17"
-            cache: maven
-            cache-dependency-path: pom.xml
-
-        - name: Setup Maven
-          uses: stCarolas/setup-maven@v4.5
-          with:
-            maven-version: 3.9.4
-            
-        - name: Compile Package
-          run: mvn clean install
+           node-version: '16.x'
+           
+        - name: Yarn Install
+          run: yarn install --frozen-lockfile
             
         - name: Endor Labs Workflow Dispatch
           if: ${{ github.event_name == 'workflow_dispatch' }}
