@@ -27,16 +27,21 @@ jobs:
             echo "::add-mask::$NAMESPACE" 
             echo NAMESPACE=$NAMESPACE >> $GITHUB_ENV
         
-        - name: Checkout Repository
-          uses: actions/checkout@v3
-          
-        - name: Setup Node
-          uses: mskelton/setup-yarn@v1
+        - name: Setup Java
+          uses: actions/setup-java@v4
           with:
-           node-version: '16.x'
-           
-        - name: Yarn Install
-          run: yarn install --frozen-lockfile
+            distribution: "temurin"
+            java-version: "17"
+            cache: maven
+            cache-dependency-path: pom.xml
+
+        - name: Setup Maven
+          uses: stCarolas/setup-maven@v4.5
+          with:
+            maven-version: 3.9.4
+
+        - name: Compile Package
+          run: mvn clean install
             
         - name: Endor Labs Workflow Dispatch
           if: ${{ github.event_name == 'workflow_dispatch' }}
